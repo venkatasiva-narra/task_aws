@@ -1,0 +1,37 @@
+pipeline{
+    agent any
+    
+    tools {
+        terraform 'terraform-tool'
+    }
+    
+    stages {
+        stage("checkout from GIT"){
+            steps {
+                git branch: 'main', credentialsId: 'Github', url: 'https://github.com/venkatasiva-narra/task_aws/'
+            }
+        }
+        stage ("terraform init"){
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage ("terraform plan"){
+            steps {
+                sh 'terraform plan'
+            }
+        }
+        stage ("terraform apply"){
+            steps {
+                sh 'terraform apply --auto-approve'
+            }
+        }
+        stage ("terraform destroy"){
+            steps {
+                sh 'terraform destroy --auto-approve'
+            }
+        }
+    }
+        
+    
+}
